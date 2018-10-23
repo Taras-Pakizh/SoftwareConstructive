@@ -22,3 +22,6 @@ MyGame.Test/obj/
 MyGame.Test/packages.config
 MyGame.sln
 MyGame/MyGame.csproj
+GameLogic/Properties/
+GameLogic/obj/
+Lab3Ling/obj/
