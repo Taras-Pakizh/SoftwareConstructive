@@ -11,6 +11,7 @@ namespace GameLogic
         public MazeCell(int _id = 0)
         {
             Id = _id;
+            connections = new Cell[4];
         }
     }
 }
