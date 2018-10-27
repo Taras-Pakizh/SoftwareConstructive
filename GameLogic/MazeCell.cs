@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace GameLogic
 {
-    public class Class1
+    public class MazeCell:Cell
     {
+        public MazeCell(int _id = 0)
+        {
+            Id = _id;
+        }
     }
 }
