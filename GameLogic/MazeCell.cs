@@ -13,5 +13,12 @@ namespace GameLogic
             Id = _id;
             connections = new Cell[4];
         }
+
+        public MazeCell(int row, int col, int _id = 0)
+        {
+            location = new CellPoint(row, col);
+            Id = _id;
+            connections = new Cell[4];
+        }
     }
 }

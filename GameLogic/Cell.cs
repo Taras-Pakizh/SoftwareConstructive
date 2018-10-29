@@ -14,6 +14,7 @@ namespace GameLogic
 
         //Properties
         public int Id { get; set; }
+        public CellPoint location { get; set; }
         public Cell Up
         {
             get { return connections[0]; }
@@ -58,7 +59,7 @@ namespace GameLogic
         public bool IsWalls()
         {
             foreach (var item in connections)
-                if (item != null && item is Cell)
+                if (item == null)
                     return true;
             return false;
         }

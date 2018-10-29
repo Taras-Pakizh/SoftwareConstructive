@@ -10,6 +10,11 @@ namespace GameLogic
     {
         //Vars
         protected Cell[][] cells;
+        public List<Character> characters;
+        public Player player;
+        public Dictionary<CellPoint, Character> characterDictionry;
+
+        //Properties
         public int Rows
         {
             get { return cells.Length; }

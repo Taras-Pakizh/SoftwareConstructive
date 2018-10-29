@@ -20,7 +20,7 @@ namespace GameLogic
                 cells[i] = new MazeCell[cols];
             for (int i = 0; i < cells.Length; ++i)
                 for (int j = 0; j < cells[0].Length; ++j)
-                    cells[i][j] = new MazeCell();
+                    cells[i][j] = new MazeCell(i, j);
 
             for (int i = 0; i < cells[0].Length; ++i)
             {
@@ -30,7 +30,7 @@ namespace GameLogic
             for(int i = 0; i < cells.Length; ++i)
             {
                 cells[i][0].Left = NotCell.GetInstance();
-                cells[i][cells[0].Length - 1] = NotCell.GetInstance();
+                cells[i][cells[0].Length - 1].Right = NotCell.GetInstance();
             }
         }
         public CommonMaze(Cell[][] _cells)

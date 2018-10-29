@@ -14,34 +14,43 @@ namespace Lab3Ling
 
         static void Main(string[] args)
         {
-            maze = new KruskalAlgorithm().CreateMaze(10, 10, new object());
+            maze = new KruskalAlgorithm().CreateMaze(25, 25, new object());
             PrintMaze();
+            //PrintIdMaze();
+            Console.ReadKey();
         }
 
         static void PrintMaze()
         {
             var cells = maze.GetCells();
             foreach (var row in cells)
+            {
                 foreach (var cell in row)
                 {
                     StringBuilder builder = new StringBuilder();
-                    if (cell.Down != null)
+                    if (cell.Down == null || cell.Down is NotCell)
                         builder.Append('_');
                     else builder.Append(' ');
-                    if (cell.Right != null)
+                    if (cell.Right == null || cell.Right is NotCell)
                         builder.Append('|');
                     else builder.Append(' ');
-                    Console.WriteLine(builder.ToString());
+                    Console.Write(builder.ToString());
                 }
+                Console.WriteLine();
+            }
         }
 
-        /// <summary>
-        /// Check if exists closed cells 
-        /// </summary>
-        static void WhereUsage()
+        static void PrintIdMaze()
         {
             var cells = maze.GetCells();
-
+            foreach(var row in cells)
+            {
+                foreach(var cell in row)
+                {
+                    Console.Write(cell.Id + " ");
+                }
+                Console.WriteLine();
+            }
         }
     }
 }

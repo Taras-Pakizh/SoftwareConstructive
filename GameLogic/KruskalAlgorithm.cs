@@ -8,11 +8,12 @@ namespace GameLogic
 {
     public class KruskalAlgorithm : IAlgorithm
     {
-        private Maze labyrinth;
+        private Maze maze;
+        private static int CharactersCount = 10;
 
         public Maze CreateMaze(int Row, int Col, object info)
         {
-            labyrinth = new CommonMaze(Row, Col);
+            maze = new CommonMaze(Row, Col);
             Random random = new Random();
             int Sets = Row * Col;
 
@@ -20,9 +21,9 @@ namespace GameLogic
             int row, col, NextId = 1;
             while (Sets > 1)
             {
-                row = random.Next(0, labyrinth.Rows);
-                col = random.Next(0, labyrinth.Columns);
-                CurrentCell = labyrinth[row, col];
+                row = random.Next(0, maze.Rows);
+                col = random.Next(0, maze.Columns);
+                CurrentCell = maze[row, col];
                 if (CurrentCell.IsWalls())
                 {
                     int WallId;
@@ -41,7 +42,8 @@ namespace GameLogic
                 }
                 else continue;
             }
-            return labyrinth;
+            CreateCharacters();
+            return maze;
         }
 
         //Methods
@@ -51,9 +53,9 @@ namespace GameLogic
             int Id2 = second.Id;
 
             if (Id1 != 0 && Id2 != 0)
-                for (int i = 0; i < labyrinth.Rows; ++i)
-                    for (int j = 0; j < labyrinth.Columns; ++j)
-                        if (labyrinth[i, j].Id == Id2) labyrinth[i, j].Id = Id1;
+                for (int i = 0; i < maze.Rows; ++i)
+                    for (int j = 0; j < maze.Columns; ++j)
+                        if (maze[i, j].Id == Id2) maze[i, j].Id = Id1;
 
             if (Id1 == 0 && Id2 == 0)
             {
@@ -84,18 +86,34 @@ namespace GameLogic
                     break;
                 case Direction.Right:
                     point.Column++;
-                    if (point.Column >= labyrinth.Columns) return NotCell.GetInstance();
+                    if (point.Column >= maze.Columns) return NotCell.GetInstance();
                     break;
                 case Direction.Down:
                     point.Row++;
-                    if (point.Row >= labyrinth.Rows) return NotCell.GetInstance();
+                    if (point.Row >= maze.Rows) return NotCell.GetInstance();
                     break;
                 case Direction.Left:
                     point.Column--;
                     if (point.Column < 0) return NotCell.GetInstance();
                     break;
             }
-            return labyrinth[point];
+            return maze[point];
+        }
+
+        private void CreateCharacters()
+        {
+            Random random = new Random();
+            maze.characters = new List<Character>();
+            maze.player = new Player(maze[maze.RandomCellPoint(random)]);
+            maze.characters.Add(maze.player);
+
+            for(int i = 0; i < CharactersCount; ++i)
+            {
+                maze.characters.Add(new Enemy(maze[maze.RandomCellPoint(random)]));
+            }
+
+            maze.characterDictionry = maze.characters.ToDictionary(x => x.location.location, x=>x);
+
         }
     }
 }

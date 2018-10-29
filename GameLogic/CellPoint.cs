@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace GameLogic
 {
-    public class CellPoint
+    public class CellPoint:IComparer<CellPoint>
     {
         public int Row { get; set; }
         public int Column { get; set; }
+
+        private static CellPoint point;
 
         public CellPoint(int row, int col)
         {
@@ -17,26 +19,27 @@ namespace GameLogic
             Column = col;
         }
 
-        public override bool Equals(object obj)
+        public int Compare(CellPoint x, CellPoint y)
         {
-            var point = obj as CellPoint;
-            return point != null &&
-                   Row == point.Row &&
-                   Column == point.Column;
+            if (x.Row < y.Row)
+                return -1;
+            else if (x.Row > y.Row)
+                return 1;
+            else
+            {
+                if (x.Column < y.Column)
+                    return -1;
+                else if (x.Column > y.Column)
+                    return 1;
+                return 0;
+            }
         }
 
-        public override int GetHashCode()
+        public static CellPoint GetInstance()
         {
-            return base.GetHashCode();
-        }
-
-        public static bool operator==(CellPoint thisPoint, CellPoint otherPoint)
-        {
-            return thisPoint.Equals(otherPoint);
-        }
-        public static bool operator!=(CellPoint thisPoint, CellPoint otherPoint)
-        {
-            return !thisPoint.Equals(otherPoint);
+            if (point == null)
+                point = new CellPoint(-1, -1);
+            return point;
         }
     }
 }
