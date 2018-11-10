@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace GameLogic
 {
-    public class Player : Character
+    public class Path
     {
-        public Player(Cell cell)
-        {
-            location = cell;
-            HP = 100;
-        }
+        private List<Direction> path;
+
     }
 }

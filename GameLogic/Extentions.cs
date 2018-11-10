@@ -10,9 +10,9 @@ namespace GameLogic
     {
         public static CellPoint GetCellPoint(this Maze maze, Cell cell)
         {
-            for(int row = 0; row < maze.Rows; ++row)
-                for(int col = 0; col < maze.Columns; ++col)
-                    if((object)maze[row, col] == (object)cell)
+            for (int row = 0; row < maze.Rows; ++row)
+                for (int col = 0; col < maze.Columns; ++col)
+                    if ((object)maze[row, col] == (object)cell)
                         return new CellPoint(row, col);
             return new CellPoint(-1, -1);
         }

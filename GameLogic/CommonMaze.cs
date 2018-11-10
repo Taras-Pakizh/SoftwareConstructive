@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameLogic
 {
-    public class CommonMaze:Maze
+    public class CommonMaze : Maze
     {
         /// <summary>
         /// Creating cells but not connecting them
@@ -27,7 +27,7 @@ namespace GameLogic
                 cells[0][i].Up = NotCell.GetInstance();
                 cells[cells.Length - 1][i].Down = NotCell.GetInstance();
             }
-            for(int i = 0; i < cells.Length; ++i)
+            for (int i = 0; i < cells.Length; ++i)
             {
                 cells[i][0].Left = NotCell.GetInstance();
                 cells[i][cells[0].Length - 1].Right = NotCell.GetInstance();
@@ -41,6 +41,8 @@ namespace GameLogic
             for (int i = 0; i < cells.Length; ++i)
                 for (int j = 0; j < cells[0].Length; ++j)
                     cells[i][j] = new MazeCell(_cells[i][j].Id);
+
         }
+
     }
 }

@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace GameLogic
 {
-    public class Player : Character
+    public interface IEnemy
     {
-        public Player(Cell cell)
-        {
-            location = cell;
-            HP = 100;
-        }
+        IHuntingAlgorithm algorithm { get; set; }
+        void Hunt();
     }
 }

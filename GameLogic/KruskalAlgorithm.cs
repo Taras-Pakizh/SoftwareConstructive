@@ -9,10 +9,19 @@ namespace GameLogic
     public class KruskalAlgorithm : IAlgorithm
     {
         private Maze maze;
-        private static int CharactersCount = 10;
+        private static int CharactersCount;
+
+        static KruskalAlgorithm()
+        {
+            CharactersCount = 10;
+        }
 
         public Maze CreateMaze(int Row, int Col, object info)
         {
+            if (info is int)
+                CharactersCount = (int)info;
+            else throw new WrongInputException();
+
             maze = new CommonMaze(Row, Col);
             Random random = new Random();
             int Sets = Row * Col;
@@ -34,7 +43,8 @@ namespace GameLogic
                         cell = GetNextCell(new CellPoint(row, col), (Direction)WallId);
                         if (CurrentCell.GetRelatedCell(WallId) == null && cell is Cell) break;
                     } while (true);
-                    if (ConnectCells(CurrentCell, (Direction)WallId, cell))
+                    ConnectCells(CurrentCell, (Direction)WallId, cell, out bool result);
+                    if (result)
                     {
                         UniteAllID(CurrentCell, CurrentCell.GetRelatedCell(WallId), ref NextId);
                         --Sets;
@@ -68,13 +78,15 @@ namespace GameLogic
             else if (Id2 == 0)
                 second.Id = Id1;
         }
-        private bool ConnectCells(Cell cell, Direction dir, Cell nextCell)
+        private void ConnectCells(Cell cell, Direction dir, Cell nextCell, out bool result)
         {
             if (cell.Id == nextCell.Id)
+            {
                 if (cell.Id != 0)
-                    return false;
+                    result = false;
+            }
             cell.ConnectCells(nextCell, dir);
-            return true;
+            result = true;
         }
         private Cell GetNextCell(CellPoint point, Direction dir)
         {
@@ -107,13 +119,15 @@ namespace GameLogic
             maze.player = new Player(maze[maze.RandomCellPoint(random)]);
             maze.characters.Add(maze.player);
 
-            for(int i = 0; i < CharactersCount; ++i)
+            for (int i = 0; i < CharactersCount; ++i)
             {
                 maze.characters.Add(new Enemy(maze[maze.RandomCellPoint(random)]));
             }
 
-            maze.characterDictionry = maze.characters.ToDictionary(x => x.location.location, x=>x);
+            maze.characterDictionry = maze.characters.ToDictionary(x => x.location.location, x => x);
 
         }
+
+        internal class WrongInputException : Exception { }
     }
 }

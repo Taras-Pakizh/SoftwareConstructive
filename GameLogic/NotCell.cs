@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace GameLogic
 {
-    public class NotCell:Cell
+    public class NotCell : Cell
     {
         private static NotCell instance;
-        
+
         public static NotCell GetInstance()
         {
             if (instance == null)

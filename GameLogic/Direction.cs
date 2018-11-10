@@ -8,9 +8,9 @@ namespace GameLogic
 {
     public enum Direction
     {
-        Up,
-        Right,
-        Down,
-        Left
+        Up = 0,
+        Right = 1,
+        Down = 3,
+        Left = 2
     }
 }

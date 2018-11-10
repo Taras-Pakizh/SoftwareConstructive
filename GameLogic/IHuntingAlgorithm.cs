@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace GameLogic
 {
-    public class Player : Character
+    public interface IHuntingAlgorithm
     {
-        public Player(Cell cell)
-        {
-            location = cell;
-            HP = 100;
-        }
+        Path FindPath(Maze maze, Character hunter, Character target);
     }
 }
