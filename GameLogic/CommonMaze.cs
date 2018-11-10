@@ -41,6 +41,8 @@ namespace GameLogic
             for (int i = 0; i < cells.Length; ++i)
                 for (int j = 0; j < cells[0].Length; ++j)
                     cells[i][j] = new MazeCell(_cells[i][j].Id);
+            
         }
+        
     }
 }

@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace GameLogic
 {
-    public enum Direction
+    public interface IHuntingAlgorithm
     {
-        Up = 0,
-        Right = 1,
-        Down = 3,
-        Left = 2
+        Path FindPath(Maze maze, Character hunter, Character target);
     }
 }

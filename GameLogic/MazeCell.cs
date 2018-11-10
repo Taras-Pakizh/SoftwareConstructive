@@ -14,11 +14,22 @@ namespace GameLogic
             connections = new Cell[4];
         }
 
-        public MazeCell(int row, int col, int _id = 0)
+        public MazeCell(int row, int col, int _id = 0):this(_id)
         {
             location = new CellPoint(row, col);
-            Id = _id;
-            connections = new Cell[4];
+        }
+
+        public static explicit operator MazeCell(CellPoint cellPoint)
+        {
+            return new MazeCell()
+            {
+                location = cellPoint,
+            };
+        }
+
+        public static implicit operator CellPoint(MazeCell cell)
+        {
+            return cell.location;
         }
     }
 }

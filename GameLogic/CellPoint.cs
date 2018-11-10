@@ -41,5 +41,23 @@ namespace GameLogic
                 point = new CellPoint(-1, -1);
             return point;
         }
+
+        public override string ToString()
+        {
+            return "Row: " + Row + " Column: " + Column;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            var point = obj as CellPoint;
+            return point != null &&
+                   Row == point.Row &&
+                   Column == point.Column;
+        }
     }
 }

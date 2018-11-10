@@ -18,7 +18,7 @@ namespace GameLogic.Tests
         [TestInitialize]
         public void Init()
         {
-            maze = new KruskalAlgorithm().CreateMaze(10, 10, new object());
+            maze = new KruskalAlgorithm().CreateMaze(10, 10, 10);
         }
 
         /// <summary>
