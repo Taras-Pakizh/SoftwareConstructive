@@ -5,8 +5,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyGame"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Escape the Labirinth" Height="450" Width="800" KeyUp="Window_KeyUp">
+    <Window.Resources>
+        <Style TargetType="StackPanel">
+            <Setter Property="Background" Value="Black"/>
+            <Setter Property="Opacity" Value="0.7"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontFamily" Value="DigifaceWide"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="Black"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="BorderBrush" Value="Red"/>
+            <Setter Property="BorderThickness" Value="3"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <EventSetter />
+        </Style>
+        <Style x:Key="FocusButton">
+            <Setter Property="Control.FontFamily" Value="Ebrima"/>
+        </Style>
+    </Window.Resources>
+    
     <Grid>
-        
+        <StackPanel x:Name="StackPanel_Menu" Visibility="Visible">
+            <Button Content="Resume" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
+            <Button Content="New Game"/>
+            <Button Content="Save"/>
+            <Button Content="Load Game"/>
+            <Button Content="Replay"/>
+            <Button Content="Settings"/>
+            <Button Content="Author"/>
+            <Button Content="Exit"/>
+        </StackPanel>
     </Grid>
 </Window>

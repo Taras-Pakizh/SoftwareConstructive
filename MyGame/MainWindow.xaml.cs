@@ -24,5 +24,33 @@ namespace MyGame
         {
             InitializeComponent();
         }
+
+
+        private void Window_KeyUp(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Escape:
+                    _ShowMenu();
+                    break;
+            }
+        }
+
+        private void _ShowMenu()
+        {
+            if (StackPanel_Menu.Visibility == Visibility.Hidden)
+                StackPanel_Menu.Visibility = Visibility.Visible;
+            else StackPanel_Menu.Visibility = Visibility.Hidden;
+        }
+
+        private void Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            
+        }
+
+        private void Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+
+        }
     }
 }
