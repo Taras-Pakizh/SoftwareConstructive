@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameLogic
 {
-    public class CellPoint : IComparer<CellPoint>
+    public class CellPoint
     {
         public int Row { get; set; }
         public int Column { get; set; }
@@ -17,22 +17,6 @@ namespace GameLogic
         {
             Row = row;
             Column = col;
-        }
-
-        public int Compare(CellPoint x, CellPoint y)
-        {
-            if (x.Row < y.Row)
-                return -1;
-            else if (x.Row > y.Row)
-                return 1;
-            else
-            {
-                if (x.Column < y.Column)
-                    return -1;
-                else if (x.Column > y.Column)
-                    return 1;
-                return 0;
-            }
         }
 
         public static CellPoint GetInstance()
@@ -58,6 +42,16 @@ namespace GameLogic
             return point != null &&
                    Row == point.Row &&
                    Column == point.Column;
+        }
+
+        public static bool operator ==(CellPoint first, CellPoint second)
+        {
+            return first.Equals(second);
+        }
+
+        public static bool operator !=(CellPoint first, CellPoint second)
+        {
+            return !first.Equals(second);
         }
     }
 }

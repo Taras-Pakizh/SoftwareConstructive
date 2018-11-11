@@ -10,7 +10,7 @@ namespace GameLogic
     {
         Up = 0,
         Right = 1,
-        Down = 3,
-        Left = 2
+        Down = 2,
+        Left = 3
     }
 }

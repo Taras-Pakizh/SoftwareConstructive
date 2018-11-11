@@ -14,9 +14,9 @@ namespace Lab3Ling
 
         static void Main(string[] args)
         {
-            maze = new KruskalAlgorithm().CreateMaze(25, 25, new object());
+            maze = new KruskalAlgorithm().CreateMaze(50, 50, 99);
             PrintMaze();
-            //PrintIdMaze();
+            PrintIdMaze();
             Console.ReadKey();
         }
 

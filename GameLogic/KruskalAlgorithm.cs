@@ -43,8 +43,7 @@ namespace GameLogic
                         cell = GetNextCell(new CellPoint(row, col), (Direction)WallId);
                         if (CurrentCell.GetRelatedCell(WallId) == null && cell is Cell) break;
                     } while (true);
-                    ConnectCells(CurrentCell, (Direction)WallId, cell, out bool result);
-                    if (result)
+                    if (ConnectCells(CurrentCell, (Direction)WallId, cell))
                     {
                         UniteAllID(CurrentCell, CurrentCell.GetRelatedCell(WallId), ref NextId);
                         --Sets;
@@ -52,7 +51,7 @@ namespace GameLogic
                 }
                 else continue;
             }
-            CreateCharacters();
+            //CreateCharacters();
             return maze;
         }
 
@@ -78,15 +77,15 @@ namespace GameLogic
             else if (Id2 == 0)
                 second.Id = Id1;
         }
-        private void ConnectCells(Cell cell, Direction dir, Cell nextCell, out bool result)
+        private bool ConnectCells(Cell cell, Direction dir, Cell nextCell)
         {
             if (cell.Id == nextCell.Id)
             {
                 if (cell.Id != 0)
-                    result = false;
+                    return false;
             }
             cell.ConnectCells(nextCell, dir);
-            result = true;
+            return true;
         }
         private Cell GetNextCell(CellPoint point, Direction dir)
         {

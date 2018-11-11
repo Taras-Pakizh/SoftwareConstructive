@@ -27,13 +27,13 @@ namespace GameLogic
         }
         public Cell Down
         {
-            get { return connections[3]; }
-            set { connections[3] = value; }
+            get { return connections[2]; }
+            set { connections[2] = value; }
         }
         public Cell Left
         {
-            get { return connections[2]; }
-            set { connections[2] = value; }
+            get { return connections[3]; }
+            set { connections[3] = value; }
         }
 
 
@@ -67,7 +67,21 @@ namespace GameLogic
         public void ConnectCells(Cell cell, Direction dir)
         {
             connections[(int)dir] = cell;
-            dir = ~dir;
+            switch (dir)
+            {
+                case Direction.Up:
+                    dir = Direction.Down;
+                    break;
+                case Direction.Right:
+                    dir = Direction.Left;
+                    break;
+                case Direction.Down:
+                    dir = Direction.Up;
+                    break;
+                case Direction.Left:
+                    dir = Direction.Right;
+                    break;
+            }
             cell.connections[(int)dir] = this;
         }
         public void ConnectCells(Cell cell, int WallId)

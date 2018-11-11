@@ -18,7 +18,14 @@ namespace GameLogic.Tests
         [TestInitialize]
         public void Init()
         {
-            maze = new KruskalAlgorithm().CreateMaze(10, 10, new object());
+            //maze = new KruskalAlgorithm().CreateMaze(10, 10, new object());
+        }
+        
+        [TestMethod]
+        public void Direction()
+        {
+            Direction f = ~GameLogic.Direction.Right;
+            Assert.AreEqual(f, GameLogic.Direction.Up);
         }
 
         /// <summary>
