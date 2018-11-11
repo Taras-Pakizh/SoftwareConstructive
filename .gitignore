@@ -11,6 +11,9 @@
 *.txt
 *.resources
 *.lref
+*.wav
+*.m4a
+*.mp3
 packages/
 MyGame/obj/
 MyGame/Properties/
