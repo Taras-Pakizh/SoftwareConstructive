@@ -31,6 +31,14 @@ namespace MyGame
             InitializeComponent();
             _MediaInit();
             _GameMusic.Play();
+            _TestPath();
+        }
+
+        private void _TestPath()
+        {
+            var path = PathCreator.GetWallPath();
+            path.Data = PathGeometryCreator.DrawLabirinth(null);
+            MyCanvas.Children.Add(path);
         }
 
         private void _MediaInit()
@@ -50,9 +58,9 @@ namespace MyGame
                 LoadedBehavior = MediaState.Manual,
                 UnloadedBehavior = MediaState.Manual
             };
-            _MenuMouseOverSound.Source = new Uri("D://LP/LP_5_semester/Designig of Sortware/Labs/MyGame/game_menu_select.wav");
-            _GameMusic.Source = new Uri("D://LP/LP_5_semester/Designig of Sortware/Labs/MyGame/IlCostruttoreDiPonti.mp3");
-            _MenuMusic.Source = new Uri("D://LP/LP_5_semester/Designig of Sortware/Labs/MyGame/MenuMusic.m4a");
+            _MenuMouseOverSound.Source = new Uri("D://LP/LP_5_semester/Designig of Sortware/Labs/MyGame/Resources/Music/game_menu_select.wav");
+            _GameMusic.Source = new Uri("D://LP/LP_5_semester/Designig of Sortware/Labs/MyGame/Resources/Music/IlCostruttoreDiPonti.mp3");
+            _MenuMusic.Source = new Uri("D://LP/LP_5_semester/Designig of Sortware/Labs/MyGame/Resources/Music/MenuMusic.m4a");
         }
 
         private void Window_KeyUp(object sender, KeyEventArgs e)

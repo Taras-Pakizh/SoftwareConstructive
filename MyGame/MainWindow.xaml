@@ -72,9 +72,17 @@
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
+        <Style TargetType="Canvas">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="D:\LP\LP_5_semester\Designig of Sortware\Labs\MyGame\Resources\Pictures\path.png" TileMode="Tile" ViewportUnits="Absolute" Viewport="0, 0, 32, 32"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
 
     <Grid Background="Black">
+        <Canvas Name="MyCanvas" />
         <StackPanel x:Name="StackPanel_Menu" Visibility="Hidden">
             <Button Content="Resume"/>
             <Button Content="New Game"/>
