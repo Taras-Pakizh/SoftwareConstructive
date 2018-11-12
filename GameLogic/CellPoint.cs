@@ -31,27 +31,27 @@ namespace GameLogic
             return "Row: " + Row + " Column: " + Column;
         }
 
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
+        //public override int GetHashCode()
+        //{
+        //    return base.GetHashCode();
+        //}
 
-        public override bool Equals(object obj)
-        {
-            var point = obj as CellPoint;
-            return point != null &&
-                   Row == point.Row &&
-                   Column == point.Column;
-        }
+        //public override bool Equals(object obj)
+        //{
+        //    var point = obj as CellPoint;
+        //    return point != null &&
+        //           Row == point.Row &&
+        //           Column == point.Column;
+        //}
 
-        public static bool operator ==(CellPoint first, CellPoint second)
-        {
-            return first.Equals(second);
-        }
+        //public static bool operator ==(CellPoint first, CellPoint second)
+        //{
+        //    return first.Equals(second);
+        //}
 
-        public static bool operator !=(CellPoint first, CellPoint second)
-        {
-            return !first.Equals(second);
-        }
+        //public static bool operator !=(CellPoint first, CellPoint second)
+        //{
+        //    return !first.Equals(second);
+        //}
     }
 }

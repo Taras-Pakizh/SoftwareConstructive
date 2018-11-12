@@ -10,6 +10,7 @@
         <Style TargetType="StackPanel">
             <Setter Property="Background" Value="Black"/>
             <Setter Property="Opacity" Value="0.7"/>
+            <Setter Property="Panel.ZIndex" Value="5"/>
         </Style>
         <Style TargetType="Button">
             <Setter Property="FontFamily" Value="DigifaceWide"/>
@@ -72,20 +73,25 @@
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
-        <Style TargetType="Canvas">
-            <Setter Property="Background">
+        <Style x:Key="CanvasBackground">
+            <Setter Property="Control.Background">
                 <Setter.Value>
                     <ImageBrush ImageSource="D:\LP\LP_5_semester\Designig of Sortware\Labs\MyGame\Resources\Pictures\path.png" TileMode="Tile" ViewportUnits="Absolute" Viewport="0, 0, 32, 32"/>
                 </Setter.Value>
             </Setter>
+            <Setter Property="Panel.ZIndex" Value="0"/>
+        </Style>
+        <Style x:Key="MyCanvasStyle">
+            <Setter Property="Panel.ZIndex" Value="2"/>
         </Style>
     </Window.Resources>
 
     <Grid Background="Black">
-        <Canvas Name="MyCanvas" />
+        <Canvas Name="BackgroundCanvas" Style="{StaticResource CanvasBackground}"/>
+        <Canvas Name="MyCanvas" Style="{StaticResource MyCanvasStyle}"/>
         <StackPanel x:Name="StackPanel_Menu" Visibility="Hidden">
             <Button Content="Resume"/>
-            <Button Content="New Game"/>
+            <Button Content="New Game" Click="NewGame_Click"/>
             <Button Content="Save"/>
             <Button Content="Load Game"/>
             <Button Content="Replay"/>

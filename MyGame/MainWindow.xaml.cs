@@ -31,14 +31,21 @@ namespace MyGame
             InitializeComponent();
             _MediaInit();
             _GameMusic.Play();
-            _TestPath();
         }
 
         private void _TestPath()
         {
             var path = PathCreator.GetWallPath();
-            path.Data = PathGeometryCreator.DrawLabirinth(null);
+
+            Maze maze = new KruskalAlgorithm().CreateMaze(10, 10, 5);
+
+            CanvasInfo info = new CanvasInfo(BackgroundCanvas.ActualWidth, BackgroundCanvas.ActualHeight);
+
+            path.Data = PathGeometryCreator.DrawLabirinth(maze, info);
+
             MyCanvas.Children.Add(path);
+
+            //MyCanvas.Margin = new Thickness(MyCanvas.ActualWidth / 4, 0, 0, 0);
         }
 
         private void _MediaInit()
@@ -65,7 +72,12 @@ namespace MyGame
 
         private void Window_KeyUp(object sender, KeyEventArgs e)
         {
-            switch (e.Key)
+            KeyControl(e.Key);
+        }
+
+        private void KeyControl(Key key)
+        {
+            switch (key)
             {
                 case Key.Escape:
                     _ShowMenu();
@@ -93,6 +105,13 @@ namespace MyGame
         {
             _MenuMouseOverSound.Position = TimeSpan.FromSeconds(0);
             _MenuMouseOverSound.Play();
+        }
+
+        private void NewGame_Click(object sender, RoutedEventArgs e)
+        {
+            MyCanvas.Children.Clear();
+            _TestPath();
+            KeyControl(Key.Escape);
         }
     }
 }
