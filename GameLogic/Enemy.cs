@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameLogic
 {
+    [Serializable]
     public class Enemy : Character, IEnemy
     {
         public Enemy(Cell cell)

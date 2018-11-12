@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameLogic
 {
+    [Serializable]
     public class NotCell : Cell
     {
         private static NotCell instance;

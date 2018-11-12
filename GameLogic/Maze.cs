@@ -4,8 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+
 namespace GameLogic
 {
+    [Serializable]
     public abstract class Maze
     {
         //Vars
@@ -50,6 +54,18 @@ namespace GameLogic
         public Cell[][] GetCells()
         {
             return cells;
+        }
+
+        public MazeMemento Save(string Name)
+        {
+            string path = MementoCareTaker.SavePath;
+            path += Name + ".dat";
+            BinaryFormatter formatter = new BinaryFormatter();
+            using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
+            {
+                formatter.Serialize(fs, this);
+            }
+            return new MazeMemento(Name, path);
         }
     }
 }

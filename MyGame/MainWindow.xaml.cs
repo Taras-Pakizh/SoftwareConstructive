@@ -33,8 +33,9 @@ namespace MyGame
             _GameMusic.Play();
         }
 
-        private void _TestPath()
+        private void _DrawMaze()
         {
+
             var path = PathCreator.GetWallPath();
 
             Maze maze = new KruskalAlgorithm().CreateMaze(10, 10, 5);
@@ -45,7 +46,7 @@ namespace MyGame
 
             MyCanvas.Children.Add(path);
 
-            //MyCanvas.Margin = new Thickness(MyCanvas.ActualWidth / 4, 0, 0, 0);
+            MyCanvas.Margin = new Thickness((BackgroundCanvas.ActualWidth - BackgroundCanvas.ActualHeight) / 2, 0, 0, 0);
         }
 
         private void _MediaInit()
@@ -87,6 +88,8 @@ namespace MyGame
 
         private void _ShowMenu()
         {
+            if (StackPanel_SaveMenu.Visibility == Visibility.Visible)
+                return;
             if (StackPanel_Menu.Visibility == Visibility.Hidden)
             {
                 StackPanel_Menu.Visibility = Visibility.Visible;
@@ -110,8 +113,37 @@ namespace MyGame
         private void NewGame_Click(object sender, RoutedEventArgs e)
         {
             MyCanvas.Children.Clear();
-            _TestPath();
+            _DrawMaze();
             KeyControl(Key.Escape);
         }
+
+        private void Button_Resume_Click(object sender, RoutedEventArgs e)
+        {
+            KeyControl(Key.Escape);
+        }
+
+        private void Button_Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void Button_ExitSaveMenu_Click(object sender, RoutedEventArgs e)
+        {
+            StackPanel_SaveMenu.Visibility = Visibility.Hidden;
+            StackPanel_Menu.Visibility = Visibility.Visible;
+        }
+
+        private void Button_Save_Click(object sender, RoutedEventArgs e)
+        {
+            StackPanel_Menu.Visibility = Visibility.Hidden;
+            StackPanel_SaveMenu.Visibility = Visibility.Visible;
+        }
+
+        private void Button_Load_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        
     }
 }
