@@ -125,7 +125,7 @@
         <Style x:Key="CanvasBackground">
             <Setter Property="Control.Background">
                 <Setter.Value>
-                    <ImageBrush ImageSource="D:\LP\LP_5_semester\Designig of Sortware\Labs\MyGame\Resources\Pictures\path.png" TileMode="Tile" ViewportUnits="Absolute" Viewport="0, 0, 32, 32"/>
+                    <ImageBrush ImageSource="D:\LP\LP_5_semester\Designig of Sortware\Labs\MyGame\MyGame\bin\Debug\Resources\Pictures/path.png" TileMode="Tile" ViewportUnits="Absolute" Viewport="0, 0, 32, 32"/>
                 </Setter.Value>
             </Setter>
             <Setter Property="Panel.ZIndex" Value="0"/>
@@ -200,13 +200,13 @@
         </StackPanel>
         <StackPanel x:Name="StackPanel_SaveMenu" Visibility="Hidden">
             <DataGrid Name="DataGrid_SavedGames"/>
-            <TextBox Text="Edit" Name="EditSaveName"/>
+            <TextBox Text="Edit Save Name" Name="EditSaveName"/>
             <Button Content="Save" Click="SaveGame_Click"/>
+            <Button Content="Delete" Name="Button_DeleteSavedGame"/>
             <Button Content="Exit" Name="Button_ExitSaveMenu" Click="Button_ExitSaveMenu_Click"/>
         </StackPanel>
         <StackPanel x:Name="StackPanel_LoadGames" Visibility="Hidden">
             <DataGrid Name="DataGrid_LoadGames"/>
-            <TextBox Text="Edit" Name="EditLoadName"/>
             <Button Content="Load" Name="Button_LoadGame" Click="Button_LoadGame_Click"/>
             <Button Content="Exit" Name="Button_ExitLoadMenu" Click="Button_ExitLoadMenu_Click"/>
         </StackPanel>

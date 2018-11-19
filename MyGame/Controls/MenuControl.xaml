@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="MyGame.Controls.MenuControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MyGame.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel x:Name="StackPanel_Menu">
+        <Button Content="Resume" Name="Button_Resume"/>
+        <Button Content="New Game"/>
+        <Button Content="Save" Name="Button_Save"/>
+        <Button Content="Load Game" Name="Button_Load"/>
+        <Button Content="Replay" Name="Button_Replay"/>
+        <Button Content="Settings" Name="Button_Settings"/>
+        <Button Content="Author" Name="Button_Author"/>
+        <Button Content="Exit" Name="Button_Exit"/>
+    </StackPanel>
+</UserControl>

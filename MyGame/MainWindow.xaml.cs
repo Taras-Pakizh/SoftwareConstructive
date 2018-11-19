@@ -24,66 +24,38 @@ namespace MyGame
     /// </summary>
     public partial class MainWindow : Window
     {
-        private MediaElement _GameMusic;
-        private MediaElement _MenuMusic;
-        private MediaElement _MenuMouseOverSound;
-
-        private Maze maze;
+        private GameMusic _music;
+        private Maze _maze;
 
         public MainWindow()
         {
             InitializeComponent();
-            _MediaInit();
-            _GameMusic.Play();
+            _music = new GameMusic();
+            _music.Play(MusicType.GameMusic);
         }
+
+        #region Logic
 
         private void _DrawMaze()
         {
-
-            var path = PathCreator.GetWallPath();
-            maze = new KruskalAlgorithm().CreateMaze(10, 10, 5);
-            CanvasInfo info = new CanvasInfo(BackgroundCanvas.ActualWidth, BackgroundCanvas.ActualHeight);
-            path.Data = PathGeometryCreator.DrawLabirinth(maze, info);
-            MyCanvas.Children.Add(path);
-            MyCanvas.Margin = new Thickness((BackgroundCanvas.ActualWidth - BackgroundCanvas.ActualHeight) / 2, 0, 0, 0);
+            _maze = new KruskalAlgorithm().CreateMaze(10, 10, 5);
+            _ConvertMaze_Canvas(_maze);
         }
 
         private void _DrawMaze(Maze loadMaze)
         {
-            maze = loadMaze;
+            _maze = loadMaze;
+            _ConvertMaze_Canvas(_maze);
+        }
+
+        private void _ConvertMaze_Canvas(Maze currentMaze)
+        {
             MyCanvas.Children.Clear();
             var path = PathCreator.GetWallPath();
             CanvasInfo info = new CanvasInfo(BackgroundCanvas.ActualWidth, BackgroundCanvas.ActualHeight);
-            path.Data = PathGeometryCreator.DrawLabirinth(maze, info);
+            path.Data = PathGeometryCreator.DrawLabirinth(currentMaze, info);
             MyCanvas.Children.Add(path);
             MyCanvas.Margin = new Thickness((BackgroundCanvas.ActualWidth - BackgroundCanvas.ActualHeight) / 2, 0, 0, 0);
-        }
-
-        private void _MediaInit()
-        {
-            _MenuMouseOverSound = new MediaElement()
-            {
-                LoadedBehavior = MediaState.Manual,
-                UnloadedBehavior = MediaState.Manual
-            };
-            _GameMusic = new MediaElement()
-            {
-                LoadedBehavior = MediaState.Manual,
-                UnloadedBehavior = MediaState.Manual
-            };
-            _MenuMusic = new MediaElement()
-            {
-                LoadedBehavior = MediaState.Manual,
-                UnloadedBehavior = MediaState.Manual
-            };
-            _MenuMouseOverSound.Source = new Uri("D://LP/LP_5_semester/Designig of Sortware/Labs/MyGame/Resources/Music/game_menu_select.wav");
-            _GameMusic.Source = new Uri("D://LP/LP_5_semester/Designig of Sortware/Labs/MyGame/Resources/Music/IlCostruttoreDiPonti.mp3");
-            _MenuMusic.Source = new Uri("D://LP/LP_5_semester/Designig of Sortware/Labs/MyGame/Resources/Music/MenuMusic.m4a");
-        }
-
-        private void Window_KeyUp(object sender, KeyEventArgs e)
-        {
-            KeyControl(e.Key);
         }
 
         private void KeyControl(Key key)
@@ -103,26 +75,44 @@ namespace MyGame
             if (StackPanel_Menu.Visibility == Visibility.Hidden)
             {
                 StackPanel_Menu.Visibility = Visibility.Visible;
-                _GameMusic.Stop();
-                _MenuMusic.Play();
+                _music.Stop(MusicType.GameMusic);
+                _music.Play(MusicType.MenuMusic);
             }
             else
             {
                 StackPanel_Menu.Visibility = Visibility.Hidden;
-                _MenuMusic.Stop();
-                _GameMusic.Play();
+                _music.Stop(MusicType.MenuMusic);
+                _music.Play(MusicType.GameMusic);
             }
+        }
+
+        private List<SaveListElement> _LoadSaveListElements()
+        {
+            MementoCareTaker careTaker = new MementoCareTaker();
+            List<SaveListElement> list = new List<SaveListElement>();
+            foreach (var item in careTaker.mementos)
+            {
+                list.Add(new SaveListElement(item));
+            }
+            return list;
+        }
+
+        #endregion
+
+        #region Events
+
+        private void Window_KeyUp(object sender, KeyEventArgs e)
+        {
+            KeyControl(e.Key);
         }
 
         private void Button_MenuMouseEnter(object sender, MouseEventArgs e)
         {
-            _MenuMouseOverSound.Position = TimeSpan.FromSeconds(0);
-            _MenuMouseOverSound.Play();
+            _music.Play(MusicType.MenuItemMusic);
         }
 
         private void NewGame_Click(object sender, RoutedEventArgs e)
         {
-            MyCanvas.Children.Clear();
             _DrawMaze();
             KeyControl(Key.Escape);
         }
@@ -146,50 +136,24 @@ namespace MyGame
         private void Button_Save_Click(object sender, RoutedEventArgs e)
         {
             StackPanel_Menu.Visibility = Visibility.Hidden;
-
-            _LoadGridSave();
-
+            DataGrid_SavedGames.ItemsSource = _LoadSaveListElements();
             StackPanel_SaveMenu.Visibility = Visibility.Visible;
-        }
-
-        private void _LoadGridSave()
-        {
-            MementoCareTaker careTaker = new MementoCareTaker();
-            List<SaveListElement> list = new List<SaveListElement>();
-            foreach (var item in careTaker.mementos)
-            {
-                list.Add(new SaveListElement(item));
-            }
-            DataGrid_SavedGames.ItemsSource = list;
-        }
-
-        private void _LoadGridLoad()
-        {
-            MementoCareTaker careTaker = new MementoCareTaker();
-            List<SaveListElement> list = new List<SaveListElement>();
-            foreach (var item in careTaker.mementos)
-            {
-                list.Add(new SaveListElement(item));
-            }
-            DataGrid_LoadGames.ItemsSource = list;
         }
 
         private void Button_Load_Click(object sender, RoutedEventArgs e)
         {
             StackPanel_LoadGames.Visibility = Visibility.Visible;
-
-            _LoadGridLoad();
-
+            DataGrid_LoadGames.ItemsSource = _LoadSaveListElements();
             StackPanel_Menu.Visibility = Visibility.Hidden;
         }
 
         private void SaveGame_Click(object sender, RoutedEventArgs e)
         {
-            if (maze == null)
+            if (_maze == null)
                 return;
             string name = EditSaveName.Text;
             DateTime dateTime = DateTime.Now;
-            var memento = maze.Save(name);
+            var memento = _maze.Save(name);
             BinaryFormatter formatter = new BinaryFormatter();
             MementoCareTaker careTaker = new MementoCareTaker();
             careTaker.mementos.Add(memento);
@@ -197,7 +161,7 @@ namespace MyGame
             {
                 formatter.Serialize(fs, careTaker.mementos);
             }
-            _LoadGridSave();
+            DataGrid_SavedGames.ItemsSource = _LoadSaveListElements();
         }
 
         private void Button_ExitLoadMenu_Click(object sender, RoutedEventArgs e)
@@ -208,13 +172,15 @@ namespace MyGame
 
         private void Button_LoadGame_Click(object sender, RoutedEventArgs e)
         {
-            string name = EditLoadName.Text;
+            var index = DataGrid_LoadGames.SelectedIndex;
+            if (index == -1)
+                return;
             MementoCareTaker careTaker = new MementoCareTaker();
-            if (careTaker.mementos.Find(x => x.Name == name) != null)
-            {
-                _DrawMaze(Maze.Load(careTaker.mementos.Find(x => x.Name == name)));
-            }
+            _DrawMaze(Maze.Load(careTaker.mementos[index]));
             Button_ExitLoadMenu_Click(this, null);
+            Button_Resume_Click(this, null);
         }
+
+        #endregion
     }
 }

@@ -15,7 +15,7 @@ namespace MyGame
         {
             Path path = new Path();
             path.StrokeThickness = 0;
-            var imageBrush = new ImageBrush(new BitmapImage(new Uri("D://LP/LP_5_semester/Designig of Sortware/Labs/MyGame/Resources/Pictures/wall3.png")));
+            var imageBrush = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Resources\Pictures\wall3.png")));
             imageBrush.Viewport = new System.Windows.Rect(0, 0, 32, 32);
             imageBrush.ViewportUnits = BrushMappingMode.Absolute;
             imageBrush.TileMode = TileMode.Tile;
