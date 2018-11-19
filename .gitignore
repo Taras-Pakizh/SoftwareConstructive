@@ -15,6 +15,7 @@
 *.m4a
 *.mp3
 *.png
+*.dat
 packages/
 MyGame/obj/
 MyGame/Properties/

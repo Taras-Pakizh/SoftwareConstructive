@@ -67,5 +67,17 @@ namespace GameLogic
             }
             return new MazeMemento(Name, path);
         }
+
+        public static Maze Load(MazeMemento memento)
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            Maze maze = null;
+
+            using (FileStream fs = new FileStream(memento.Path, FileMode.Open))
+            {
+                maze = (Maze)formatter.Deserialize(fs);
+            }
+            return maze;
+        }
     }
 }

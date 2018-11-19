@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyGame"
+        xmlns:col="clr-namespace:System.Collections;assembly=mscorlib"
         mc:Ignorable="d"
         Title="Escape the Labirinth" Height="700" Width="700" KeyUp="Window_KeyUp" ResizeMode="CanMinimize">
     <Window.Resources>
@@ -79,6 +80,21 @@
                 </EventTrigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="DataGrid">
+            <Setter Property="FontFamily" Value="DigifaceWide"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="Black"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="BorderBrush" Value="Red"/>
+            <Setter Property="BorderThickness" Value="3"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="RowBackground" Value="Black"/>
+            <Setter Property="Template" Value="{DynamicResource DataGridControlTemplate1}"/>
+        </Style>
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Visibility" Value="Hidden"/>
+        </Style>
         <ControlTemplate x:Key="MyButtonTemplate" TargetType="{x:Type Button}">
             <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
                 <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
@@ -117,6 +133,56 @@
         <Style x:Key="MyCanvasStyle">
             <Setter Property="Panel.ZIndex" Value="2"/>
         </Style>
+        <ControlTemplate x:Key="DataGridControlTemplate1" TargetType="{x:Type DataGrid}">
+            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                <ScrollViewer x:Name="DG_ScrollViewer" Focusable="False">
+                    <ScrollViewer.Template>
+                        <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Button Command="ApplicationCommands.SelectAll" Focusable="False" Style="{DynamicResource {ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}}" Width="{Binding CellsPanelHorizontalOffset, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type DataGrid}}}">
+                                    <Button.Visibility>
+                                        <Binding Path="HeadersVisibility" RelativeSource="{RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type DataGrid}}">
+                                            <Binding.ConverterParameter>
+                                                <DataGridHeadersVisibility>All</DataGridHeadersVisibility>
+                                            </Binding.ConverterParameter>
+                                        </Binding>
+                                    </Button.Visibility>
+                                </Button>
+                                <DataGridColumnHeadersPresenter x:Name="PART_ColumnHeadersPresenter" Grid.Column="1">
+                                    <DataGridColumnHeadersPresenter.Visibility>
+                                        <Binding Path="HeadersVisibility" RelativeSource="{RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type DataGrid}}">
+                                            <Binding.ConverterParameter>
+                                                <DataGridHeadersVisibility>Column</DataGridHeadersVisibility>
+                                            </Binding.ConverterParameter>
+                                        </Binding>
+                                    </DataGridColumnHeadersPresenter.Visibility>
+                                </DataGridColumnHeadersPresenter>
+                                <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" CanHorizontallyScroll="False" Grid.ColumnSpan="2" CanVerticallyScroll="False" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Grid.Row="1"/>
+                                <ScrollBar x:Name="PART_VerticalScrollBar" Grid.Column="2" Maximum="{TemplateBinding ScrollableHeight}" Orientation="Vertical" Grid.Row="1" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}"/>
+                                <Grid Grid.Column="1" Grid.Row="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type DataGrid}}}"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ScrollBar x:Name="PART_HorizontalScrollBar" Grid.Column="1" Maximum="{TemplateBinding ScrollableWidth}" Orientation="Horizontal" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}"/>
+                                </Grid>
+                            </Grid>
+                        </ControlTemplate>
+                    </ScrollViewer.Template>
+                    <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                </ScrollViewer>
+            </Border>
+        </ControlTemplate>
     </Window.Resources>
 
     <Grid Background="Black">
@@ -133,10 +199,16 @@
             <Button Content="Exit" Name="Button_Exit" Click="Button_Exit_Click"/>
         </StackPanel>
         <StackPanel x:Name="StackPanel_SaveMenu" Visibility="Hidden">
-            
-            <TextBox Text="Edit"/>
-            <Button Content="Save"/>
+            <DataGrid Name="DataGrid_SavedGames"/>
+            <TextBox Text="Edit" Name="EditSaveName"/>
+            <Button Content="Save" Click="SaveGame_Click"/>
             <Button Content="Exit" Name="Button_ExitSaveMenu" Click="Button_ExitSaveMenu_Click"/>
+        </StackPanel>
+        <StackPanel x:Name="StackPanel_LoadGames" Visibility="Hidden">
+            <DataGrid Name="DataGrid_LoadGames"/>
+            <TextBox Text="Edit" Name="EditLoadName"/>
+            <Button Content="Load" Name="Button_LoadGame" Click="Button_LoadGame_Click"/>
+            <Button Content="Exit" Name="Button_ExitLoadMenu" Click="Button_ExitLoadMenu_Click"/>
         </StackPanel>
     </Grid>
 </Window>
