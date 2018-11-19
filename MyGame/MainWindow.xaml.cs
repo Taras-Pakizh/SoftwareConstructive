@@ -16,6 +16,11 @@ using System.Windows.Shapes;
 using GameLogic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using MyGame.ViewModels;
+using System.Collections.ObjectModel;
+using AutoMapper;
+using Ninject;
+using Ninject.Parameters;
 
 namespace MyGame
 {
@@ -26,19 +31,32 @@ namespace MyGame
     {
         private GameMusic _music;
         private Maze _maze;
+        private MementoCareTaker _careTaker;
+        private SaveList _saveList;
+        private IKernel kernel;
 
         public MainWindow()
         {
             InitializeComponent();
             _music = new GameMusic();
             _music.Play(MusicType.GameMusic);
+
+            kernel = new StandardKernel(new NinjectRegistration());
+
+            _careTaker = new MementoCareTaker();
+
+            Mapper.Initialize(x => x.CreateMap<MazeMemento, SaveListElement>());
+            _saveList = new SaveList()
+            {
+                Elements = Mapper.Map<IEnumerable<MazeMemento>, ObservableCollection<SaveListElement>>(_careTaker.mementos)
+            };
         }
 
         #region Logic
 
         private void _DrawMaze()
         {
-            _maze = new KruskalAlgorithm().CreateMaze(10, 10, 5);
+            _maze = kernel.Get<Maze>(new NinjectArguments(15, 15, 5).GetValues());
             _ConvertMaze_Canvas(_maze);
         }
 
@@ -51,9 +69,9 @@ namespace MyGame
         private void _ConvertMaze_Canvas(Maze currentMaze)
         {
             MyCanvas.Children.Clear();
-            var path = PathCreator.GetWallPath();
+            var path = kernel.Get<System.Windows.Shapes.Path>("Wall Path");
             CanvasInfo info = new CanvasInfo(BackgroundCanvas.ActualWidth, BackgroundCanvas.ActualHeight);
-            path.Data = PathGeometryCreator.DrawLabirinth(currentMaze, info);
+            path.Data = kernel.Get<PathGeometry>(new NinjectArguments(currentMaze, info).GetValues());
             MyCanvas.Children.Add(path);
             MyCanvas.Margin = new Thickness((BackgroundCanvas.ActualWidth - BackgroundCanvas.ActualHeight) / 2, 0, 0, 0);
         }
@@ -86,15 +104,18 @@ namespace MyGame
             }
         }
 
-        private List<SaveListElement> _LoadSaveListElements()
+        private ObservableCollection<SaveListElement> _LoadSaveListElements(MementoCareTaker taker)
         {
-            MementoCareTaker careTaker = new MementoCareTaker();
-            List<SaveListElement> list = new List<SaveListElement>();
-            foreach (var item in careTaker.mementos)
-            {
-                list.Add(new SaveListElement(item));
-            }
-            return list;
+            var config = Mapping.Mapping.CreateMapper_Memento_to_SaveListElement();
+            return config.Map<IEnumerable<MazeMemento>, ObservableCollection<SaveListElement>>(taker.mementos);
+        }
+
+        private void _DeleteSaving(int index)
+        {
+            if (index == -1)
+                return;
+            _careTaker.RemoveAt(index);
+            _saveList.Elements = _LoadSaveListElements(_careTaker);
         }
 
         #endregion
@@ -136,14 +157,15 @@ namespace MyGame
         private void Button_Save_Click(object sender, RoutedEventArgs e)
         {
             StackPanel_Menu.Visibility = Visibility.Hidden;
-            DataGrid_SavedGames.ItemsSource = _LoadSaveListElements();
+            DataGrid_SavedGames.ItemsSource = _LoadSaveListElements(_careTaker);
             StackPanel_SaveMenu.Visibility = Visibility.Visible;
         }
 
         private void Button_Load_Click(object sender, RoutedEventArgs e)
         {
             StackPanel_LoadGames.Visibility = Visibility.Visible;
-            DataGrid_LoadGames.ItemsSource = _LoadSaveListElements();
+            _saveList.Elements = _LoadSaveListElements(_careTaker);
+            DataGrid_LoadGames.ItemsSource = _saveList.Elements;
             StackPanel_Menu.Visibility = Visibility.Hidden;
         }
 
@@ -151,17 +173,11 @@ namespace MyGame
         {
             if (_maze == null)
                 return;
-            string name = EditSaveName.Text;
-            DateTime dateTime = DateTime.Now;
-            var memento = _maze.Save(name);
-            BinaryFormatter formatter = new BinaryFormatter();
-            MementoCareTaker careTaker = new MementoCareTaker();
-            careTaker.mementos.Add(memento);
-            using (FileStream fs = new FileStream(MementoCareTaker.SavePath + MementoCareTaker.SaveName, FileMode.OpenOrCreate))
-            {
-                formatter.Serialize(fs, careTaker.mementos);
-            }
-            DataGrid_SavedGames.ItemsSource = _LoadSaveListElements();
+            var memento = _maze.Save(EditSaveName.Text);
+            _careTaker.Add(memento);
+            _saveList.Elements = _LoadSaveListElements(_careTaker);
+
+            DataGrid_SavedGames.ItemsSource = _saveList.Elements;
         }
 
         private void Button_ExitLoadMenu_Click(object sender, RoutedEventArgs e)
@@ -175,12 +191,25 @@ namespace MyGame
             var index = DataGrid_LoadGames.SelectedIndex;
             if (index == -1)
                 return;
-            MementoCareTaker careTaker = new MementoCareTaker();
-            _DrawMaze(Maze.Load(careTaker.mementos[index]));
+            _DrawMaze(Maze.Load(_careTaker.mementos[index]));
             Button_ExitLoadMenu_Click(this, null);
             Button_Resume_Click(this, null);
         }
 
+        private void Button_DeleteSavedGame_Click(object sender, RoutedEventArgs e)
+        {
+            _DeleteSaving(DataGrid_SavedGames.SelectedIndex);
+            DataGrid_SavedGames.ItemsSource = _saveList.Elements;
+        }
+
+        private void Button_DeleteLoadGame_Click(object sender, RoutedEventArgs e)
+        {
+            _DeleteSaving(DataGrid_LoadGames.SelectedIndex);
+            DataGrid_LoadGames.ItemsSource = _saveList.Elements;
+        }
+
         #endregion
+
+
     }
 }

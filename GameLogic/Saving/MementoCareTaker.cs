@@ -28,5 +28,36 @@ namespace GameLogic
                 else mementos = new List<MazeMemento>();
             }
         }
+        
+        public void Save()
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+
+            using (FileStream fs = new FileStream(SavePath + SaveName, FileMode.OpenOrCreate))
+            {
+                formatter.Serialize(fs, mementos);
+            }
+        }
+
+        public void Add(MazeMemento memento)
+        {
+            mementos.Add(memento);
+            Save();
+        }
+
+        public void RemoveAt(int index)
+        {
+            if (mementos.Count <= index || index < 0)
+                return;
+            DeleteFile(mementos[index].Path);
+            mementos.RemoveAt(index);
+            Save();
+        }
+
+        private void DeleteFile(string path)
+        {
+            if (File.Exists(path))
+                File.Delete(path);
+        }
     }
 }

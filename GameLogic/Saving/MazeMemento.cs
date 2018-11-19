@@ -13,6 +13,8 @@ namespace GameLogic
         public string Path { get; private set; }
         public DateTime DateAndTime { get; private set; }
 
+        public MazeMemento() { }
+
         public MazeMemento(string _Name, string _path)
         {
             Name = _Name;

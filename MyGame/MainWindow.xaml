@@ -4,10 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyGame"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:converters="clr-namespace:MyGame.Converters"
         xmlns:col="clr-namespace:System.Collections;assembly=mscorlib"
         mc:Ignorable="d"
         Title="Escape the Labirinth" Height="700" Width="700" KeyUp="Window_KeyUp" ResizeMode="CanMinimize">
     <Window.Resources>
+
+        <sys:Int32 x:Key="CurrentLevel">1</sys:Int32>
+        <converters:LevelToTextureConverter x:Key="TextureConverter"/>
+
         <Style TargetType="StackPanel">
             <Setter Property="Background" Value="Black"/>
             <Setter Property="Opacity" Value="0.7"/>
@@ -125,7 +131,7 @@
         <Style x:Key="CanvasBackground">
             <Setter Property="Control.Background">
                 <Setter.Value>
-                    <ImageBrush ImageSource="D:\LP\LP_5_semester\Designig of Sortware\Labs\MyGame\MyGame\bin\Debug\Resources\Pictures/path.png" TileMode="Tile" ViewportUnits="Absolute" Viewport="0, 0, 32, 32"/>
+                    <ImageBrush ImageSource="{Binding Source={StaticResource CurrentLevel}, Converter={StaticResource TextureConverter}}" TileMode="Tile" ViewportUnits="Absolute" Viewport="0, 0, 32, 32"/>
                 </Setter.Value>
             </Setter>
             <Setter Property="Panel.ZIndex" Value="0"/>
@@ -183,6 +189,8 @@
                 </ScrollViewer>
             </Border>
         </ControlTemplate>
+
+        
     </Window.Resources>
 
     <Grid Background="Black">
@@ -202,12 +210,13 @@
             <DataGrid Name="DataGrid_SavedGames"/>
             <TextBox Text="Edit Save Name" Name="EditSaveName"/>
             <Button Content="Save" Click="SaveGame_Click"/>
-            <Button Content="Delete" Name="Button_DeleteSavedGame"/>
+            <Button Content="Delete" Name="Button_DeleteSavedGame" Click="Button_DeleteSavedGame_Click"/>
             <Button Content="Exit" Name="Button_ExitSaveMenu" Click="Button_ExitSaveMenu_Click"/>
         </StackPanel>
         <StackPanel x:Name="StackPanel_LoadGames" Visibility="Hidden">
             <DataGrid Name="DataGrid_LoadGames"/>
             <Button Content="Load" Name="Button_LoadGame" Click="Button_LoadGame_Click"/>
+            <Button Content="Delete" Name="Button_DeleteLoadGame" Click="Button_DeleteLoadGame_Click"/>
             <Button Content="Exit" Name="Button_ExitLoadMenu" Click="Button_ExitLoadMenu_Click"/>
         </StackPanel>
     </Grid>
