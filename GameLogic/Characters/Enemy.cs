@@ -11,7 +11,7 @@ namespace GameLogic
     {
         public Enemy(Cell cell)
         {
-            location = cell;
+            Location = cell;
             HP = 100;
         }
 

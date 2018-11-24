@@ -52,7 +52,7 @@ namespace GameLogic
                 else continue;
             }
             //CreateCharacters();
-            maze.player = new Player(maze[maze.RandomCellPoint(random)]);
+            maze.player = new Player(new MazeCell(5, 5));
             return maze;
         }
 
@@ -124,7 +124,7 @@ namespace GameLogic
                 maze.characters.Add(new Enemy(maze[maze.RandomCellPoint(random)]));
             }
 
-            maze.characterDictionry = maze.characters.ToDictionary(x => x.location.location, x => x);
+            maze.characterDictionry = maze.characters.ToDictionary(x => x.Location.location, x => x);
 
         }
 

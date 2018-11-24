@@ -10,22 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MyGame.Controls
+namespace MyGame
 {
     /// <summary>
-    /// Логика взаимодействия для LoadMenuControl.xaml
+    /// Логика взаимодействия для TestWindow.xaml
     /// </summary>
-    public partial class LoadMenuControl : UserControl
+    public partial class TestWindow : Window
     {
-        public LoadMenuControl()
+        public TestWindow()
         {
             InitializeComponent();
-            
         }
-
-        
     }
 }

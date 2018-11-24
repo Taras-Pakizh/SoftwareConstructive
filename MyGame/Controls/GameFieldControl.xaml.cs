@@ -16,16 +16,13 @@ using System.Windows.Shapes;
 namespace MyGame.Controls
 {
     /// <summary>
-    /// Логика взаимодействия для LoadMenuControl.xaml
+    /// Логика взаимодействия для GameFieldControl.xaml
     /// </summary>
-    public partial class LoadMenuControl : UserControl
+    public partial class GameFieldControl : UserControl
     {
-        public LoadMenuControl()
+        public GameFieldControl()
         {
             InitializeComponent();
-            
         }
-
-        
     }
 }

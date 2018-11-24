@@ -8,6 +8,18 @@ namespace MyGame.ViewModels
 {
     class CommonViewModel:ViewModelBase
     {
+        private string _visiblePanel;
 
+        public string VisiblePanel
+        {
+            get { return _visiblePanel; }
+            set
+            {
+                _visiblePanel = value;
+                OnPropertyChanged("VisiblePanel");
+            }
+        }
+
+        
     }
 }

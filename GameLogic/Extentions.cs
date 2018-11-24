@@ -25,7 +25,7 @@ namespace GameLogic
                 int row = random.Next(0, maze.Rows);
                 int col = random.Next(0, maze.Columns);
                 point = new CellPoint(row, col);
-                var points = maze.characters.Select(x => x.location.location).ToList();
+                var points = maze.characters.Select(x => x.Location.location).ToList();
                 if (points.Contains(point))
                     continue;
             }

@@ -80,7 +80,7 @@ namespace GameLogic.Tests
         [TestMethod]
         public void AnonimTest()
         {
-            var anonim = maze.characters.Select(x => new { Character = x, point = x.location.location });
+            var anonim = maze.characters.Select(x => new { Character = x, point = x.Location.location });
             var group = anonim.GroupBy(x => x.point);
             if (anonim.Count() != group.Count())
                 Assert.Fail();

@@ -21,6 +21,7 @@ using System.Collections.ObjectModel;
 using AutoMapper;
 using Ninject;
 using Ninject.Parameters;
+using MyGame.Controls;
 
 namespace MyGame
 {
@@ -50,6 +51,11 @@ namespace MyGame
             {
                 Elements = Mapper.Map<IEnumerable<MazeMemento>, ObservableCollection<SaveListElement>>(_careTaker.mementos)
             };
+
+            var model = new Player(new MazeCell(5, 5));
+            var config = Mapping.Mapping.CreateMapper_Player_to_PlayerViewModel();
+            var _viewModel = config.Map<Player, PlayerModelView>(model);
+            StatusBar.DataContext = _viewModel;
         }
 
         #region Logic

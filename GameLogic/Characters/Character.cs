@@ -10,7 +10,7 @@ namespace GameLogic
     public abstract class Character
     {
         //Properties
-        public Cell location { get; set; }
+        public Cell Location { get; set; }
         public int HP { get; set; }
 
         //Events
@@ -18,11 +18,11 @@ namespace GameLogic
 
         public void Move(Direction dir)
         {
-            var nextCell = location.GetRelatedCell(dir);
+            var nextCell = Location.GetRelatedCell(dir);
             if (nextCell == null || nextCell is NotCell)
                 return;
-            move.Invoke(this, new CharacterEventArgs() { Massege = "move", prevCell = location, nextCell = nextCell, dir = dir });
-            location = nextCell;
+            move.Invoke(this, new CharacterEventArgs() { Massege = "move", prevCell = Location, nextCell = nextCell, dir = dir });
+            Location = nextCell;
         }
     }
 }

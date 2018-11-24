@@ -11,6 +11,8 @@ namespace MyGame.ViewModels
     {
         private int _HP;
         private Cell _location;
+        private int _minimun;
+        private int _maximun;
 
         public int HP
         {
@@ -29,6 +31,26 @@ namespace MyGame.ViewModels
             {
                 _location = value;
                 OnPropertyChanged("Location");
+            }
+        }
+
+        public int Minimum
+        {
+            get { return _minimun; }
+            set
+            {
+                _minimun = value;
+                OnPropertyChanged("Minimum");
+            }
+        }
+
+        public int Maximum
+        {
+            get { return _maximun; }
+            set
+            {
+                _maximun = value;
+                OnPropertyChanged("Maximum");
             }
         }
     }

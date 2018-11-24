@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using MyGame.ViewModels;
 
 namespace MyGame
 {
@@ -13,6 +14,11 @@ namespace MyGame
     /// </summary>
     public partial class App : Application
     {
-        
+        public App()
+        {
+            var window = new TestWindow();
+            window.DataContext = new CommonViewModel();
+            window.Show();
+        }
     }
 }
