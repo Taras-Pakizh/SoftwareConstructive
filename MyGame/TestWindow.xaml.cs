@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MyGame.ViewModels;
 
 namespace MyGame
 {
@@ -22,6 +24,16 @@ namespace MyGame
         public TestWindow()
         {
             InitializeComponent();
+        }
+
+        public void UpdateView(object sender, PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case "VisiblePanel":
+                    
+                    break;
+            }
         }
     }
 }

@@ -7,6 +7,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
+        <Style TargetType="StackPanel">
+            <Setter Property="Background" Value="Black"/>
+            <Setter Property="Opacity" Value="0.7"/>
+            <Setter Property="Panel.ZIndex" Value="5"/>
+        </Style>
         <Style TargetType="Button">
             <Setter Property="FontFamily" Value="DigifaceWide"/>
             <Setter Property="FontSize" Value="20"/>
@@ -70,13 +75,13 @@
         </ControlTemplate>
     </UserControl.Resources>
     <StackPanel x:Name="StackPanel_Menu">
-        <Button Content="Resume" Name="Button_Resume"/>
+        <Button Content="Resume" Command="{Binding VisibilityChange}" />
         <Button Content="New Game"/>
-        <Button Content="Save" Name="Button_Save"/>
-        <Button Content="Load Game" Name="Button_Load"/>
-        <Button Content="Replay" Name="Button_Replay"/>
-        <Button Content="Settings" Name="Button_Settings"/>
-        <Button Content="Author" Name="Button_Author"/>
-        <Button Content="Exit" Name="Button_Exit"/>
+        <Button Content="Save" Command="{Binding VisibilityChange}" CommandParameter="SaveMenu"/>
+        <Button Content="Load Game" Command="{Binding VisibilityChange}" CommandParameter="LoadMenu"/>
+        <Button Content="Replay"/>
+        <Button Content="Settings"/>
+        <Button Content="Author"/>
+        <Button Content="Exit" Command="{Binding ExitGame}"/>
     </StackPanel>
 </UserControl>

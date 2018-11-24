@@ -24,7 +24,7 @@
             <Setter Property="Panel.ZIndex" Value="2"/>
         </Style>
     </UserControl.Resources>
-    <Grid>
+    <Grid Background="Black">
         <Canvas Name="BackgroundCanvas" Style="{StaticResource CanvasBackground}"/>
         <Canvas Name="MyCanvas" Style="{StaticResource MyCanvasStyle}"/>
     </Grid>

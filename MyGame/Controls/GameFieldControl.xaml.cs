@@ -24,5 +24,14 @@ namespace MyGame.Controls
         {
             InitializeComponent();
         }
+
+        public Path Maze
+        {
+            set
+            {
+                MyCanvas.Children.Clear();
+                MyCanvas.Children.Add(value);
+            }
+        }
     }
 }

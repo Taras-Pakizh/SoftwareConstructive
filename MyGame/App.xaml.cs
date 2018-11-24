@@ -16,9 +16,14 @@ namespace MyGame
     {
         public App()
         {
+            this.ShutdownMode = ShutdownMode.OnLastWindowClose;
             var window = new TestWindow();
-            window.DataContext = new CommonViewModel();
-            window.Show();
+
+            var viewmodel = new CommonViewModel();
+            window.DataContext = viewmodel;
+            viewmodel.PropertyChanged += window.UpdateView;
+
+            window.Show();   
         }
     }
 }
