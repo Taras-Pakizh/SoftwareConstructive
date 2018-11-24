@@ -26,5 +26,10 @@ namespace MyGame.Mapping
                 ctg.CreateMap<SaveListElement, MazeMemento>().ForMember("Path", opt=>opt.MapFrom(x=>MementoCareTaker.SavePath + x.Name + ".dat"));
             }).CreateMapper();
         }
+
+        public static IMapper CreateMapper_Player_to_PlayerViewModel()
+        {
+            return new MapperConfiguration(ctg => ctg.CreateMap<Player, PlayerModelView>()).CreateMapper();
+        }
     }
 }

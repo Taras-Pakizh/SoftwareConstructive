@@ -13,5 +13,6 @@ namespace MyGame
     /// </summary>
     public partial class App : Application
     {
+        
     }
 }

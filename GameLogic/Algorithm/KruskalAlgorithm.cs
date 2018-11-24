@@ -52,6 +52,7 @@ namespace GameLogic
                 else continue;
             }
             //CreateCharacters();
+            maze.player = new Player(maze[maze.RandomCellPoint(random)]);
             return maze;
         }
 
