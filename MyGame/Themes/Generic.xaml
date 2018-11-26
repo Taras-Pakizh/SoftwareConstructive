@@ -1,0 +1,19 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:MyGame"
+    xmlns:convertors="clr-namespace:MyGame.Converters"
+    xmlns:controls="clr-namespace:MyGame.Controls"
+    >
+
+    <local:Positions x:Key="CurrentPosition">Front</local:Positions>
+    <convertors:PositionToTexture x:Key="MyConvertor"/>
+
+    <Style TargetType="{x:Type controls:PlayerControl}">
+        <Setter Property="Background">
+            <Setter.Value>
+                <ImageBrush ImageSource="{Binding Source={StaticResource CurrentPosition}, Converter={StaticResource MyConvertor}}"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

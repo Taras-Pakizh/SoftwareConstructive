@@ -76,7 +76,7 @@
     </UserControl.Resources>
     <StackPanel x:Name="StackPanel_Menu">
         <Button Content="Resume" Command="{Binding VisibilityChange}" />
-        <Button Content="New Game"/>
+        <Button Content="New Game" Command="{Binding NewGame}"/>
         <Button Content="Save" Command="{Binding VisibilityChange}" CommandParameter="SaveMenu"/>
         <Button Content="Load Game" Command="{Binding VisibilityChange}" CommandParameter="LoadMenu"/>
         <Button Content="Replay"/>

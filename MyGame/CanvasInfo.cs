@@ -8,7 +8,7 @@ using GameLogic;
 
 namespace MyGame
 {
-    class CanvasInfo
+    public class CanvasInfo
     {
         public double Width { get; private set; }
         public double Heigth { get; private set; }
@@ -28,6 +28,8 @@ namespace MyGame
         {
             get { return (Margin - CellSize) / 2; }
         }
+
+        public CanvasInfo() { }
 
         public CanvasInfo(double width, double heigth)
         {

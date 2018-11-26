@@ -7,10 +7,13 @@
         xmlns:local="clr-namespace:MyGame"
         xmlns:convertors ="clr-namespace:MyGame.Converters"
         xmlns:controls="clr-namespace:MyGame.Controls"
+        xmlns:viewmodel="clr-namespace:MyGame.ViewModels"
+        
+        xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
              
         
         mc:Ignorable="d"
-        Title="TestWindow" Height="450" Width="800">
+        Title="TestWindow" Height="450" Width="800" x:Name="MyWindow">
     
     <Window.Resources>
         <convertors:VisibilityConvertor x:Key="VisibilityConvertor"/>
@@ -19,15 +22,24 @@
     <Window.InputBindings>
         <KeyBinding Key="Esc" Command="{Binding VisibilityChange}"/>
     </Window.InputBindings>
-    
+
     <Grid>
-        <controls:GameFieldControl x:Name="GameField"/>
-        <controls:StatusControl x:Name="StatusBar" Width="100" Height="20"/>
+
+        <controls:GameFieldControl x:Name="GameField" 
+               HeightInfo="{Binding Path=CanvasHeight, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" 
+               WidthInfo="{Binding Path=CanvasWidth, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+               Maze="{Binding Path=MazePath, Mode=OneWay}"/>
+
+        <controls:StatusControl x:Name="StatusBar" Width="100" Height="100"/>
+        
         <controls:MenuControl x:Name="MainMenu" Visibility="{Binding Path=VisiblePanel,
             Converter={StaticResource VisibilityConvertor}, ConverterParameter=MainMenu, Mode=OneWay}"/>
         <controls:SaveMenuControl x:Name="SaveMenu" Visibility="{Binding Path=VisiblePanel,
             Converter={StaticResource VisibilityConvertor}, ConverterParameter=SaveMenu, Mode=OneWay}"/>
         <controls:LoadMenuControl x:Name="LoadMenu" Visibility="{Binding Path=VisiblePanel,
             Converter={StaticResource VisibilityConvertor}, ConverterParameter=LoadMenu, Mode=OneWay}"/>
+        
+        
+        <controls:PlayerControl Margin="300, 300, 0, 0" Width="100" Height="100" Panel.ZIndex="10"/>
     </Grid>
 </Window>

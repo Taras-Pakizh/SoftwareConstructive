@@ -5,8 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-
+using System.Windows.Media;
 using GameLogic;
+using Ninject;
+
+using Path = System.Windows.Shapes.Path;
 
 namespace MyGame.ViewModels
 {
@@ -14,28 +17,62 @@ namespace MyGame.ViewModels
     {
         #region Model
 
-        private Maze maze;
+        private Maze _maze;
+        private IKernel _kernel;
 
         #endregion
 
         public CommonViewModel()
         {
+            _kernel = new StandardKernel(new NinjectRegistration());
             _visiblePanel = VisibilityPanels.Game;
         }
 
         #region Properties
 
         private VisibilityPanels _visiblePanel;
-
         public VisibilityPanels VisiblePanel
         {
             get { return _visiblePanel; }
             set
             {
                 _visiblePanel = value;
-                OnPropertyChanged("VisiblePanel");
+                OnPropertyChanged(nameof(VisiblePanel));
             }
         }
+
+        private double _canvasWidth;
+        public double CanvasWidth
+        {
+            get { return _canvasWidth; }
+            set
+            {
+                _canvasWidth = value;
+                OnPropertyChanged(nameof(CanvasWidth));
+            }
+        }
+
+        private double _canvasHeight;
+        public double CanvasHeight
+        {
+            get { return _canvasHeight; }
+            set
+            {
+                _canvasHeight = value;
+                OnPropertyChanged(nameof(CanvasHeight));
+            }
+        }
+
+        private Path _mazePath;
+        public Path MazePath
+        {
+            get { return _mazePath; }
+            set
+            {
+                _mazePath = value;
+                OnPropertyChanged(nameof(MazePath));
+            }
+        } 
 
         #endregion
 
@@ -57,7 +94,6 @@ namespace MyGame.ViewModels
         public ICommand ExitGame
         {
             get
-
             {
                 if (_exitGame != null)
                     return _exitGame;
@@ -113,7 +149,12 @@ namespace MyGame.ViewModels
         
         private void _NewGame(object obj)
         {
-
+            _VisibilityChange(VisibilityPanels.Game.ToString());
+            _maze = _kernel.Get<Maze>(new NinjectArguments(15, 15, 5).GetValues());
+            var path = _kernel.Get<System.Windows.Shapes.Path>("Wall Path");
+            var info = new CanvasInfo(CanvasWidth, CanvasHeight);
+            path.Data = _kernel.Get<PathGeometry>(new NinjectArguments(_maze, info).GetValues());
+            MazePath = path;
         }
 
         #endregion
